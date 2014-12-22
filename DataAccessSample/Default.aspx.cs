@@ -10,21 +10,14 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using Filter;
 
-public partial class Sample : System.Web.UI.Page
+namespace DataAccessSample
 {
-    protected void Page_Load(object sender, EventArgs e)
+    public partial class _Default : System.Web.UI.Page
     {
+        protected void Page_Load(object sender, EventArgs e)
+        {
 
-    }
-
-    public bool IsMatch(){
-
-    
-        Filter.Filter x = new Filter.CountryFilter(new CityFilter(new DistanceFilter()));
-
-        return false;
-
+        }
     }
 }
