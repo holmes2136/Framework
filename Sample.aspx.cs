@@ -10,7 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using Filter;
+
 
 public partial class Sample : System.Web.UI.Page
 {
@@ -19,12 +19,5 @@ public partial class Sample : System.Web.UI.Page
 
     }
 
-    public bool IsMatch(){
-
     
-        Filter.Filter x = new Filter.CountryFilter(new CityFilter(new DistanceFilter()));
-
-        return false;
-
-    }
 }
