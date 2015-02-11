@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-
-namespace Utilities { 
-/// <summary>
-/// TokenProcessor 的摘要描述
-/// </summary>
-public class TokenProcessor
+using System;
+namespace Utilities
 {
-	public enum CharType
+	public class TokenProcessor
+	{
+		public enum CharType
 		{
 			NonLetterDigit
 		}
-
-
 		private string _text;
 		private int _currentIndex;
 		public TokenProcessor(string text)
@@ -86,7 +77,5 @@ public class TokenProcessor
 		{
 			return this._text[this._currentIndex + index];
 		}
-
-}
-
+	}
 }
