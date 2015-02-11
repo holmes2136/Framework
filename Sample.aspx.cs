@@ -13,11 +13,16 @@ using System.Xml.Linq;
 using System.Data.Common;
 using System.Data.SqlClient;
 using DataAccessLayer;
+using Config = System.Configuration.ConfigurationManager;
+
 
 public partial class Sample : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        Sample1();
+        //test();
 
         //DataAccessHelper.SetUp(
         //            GetConnectionString(),
@@ -34,7 +39,37 @@ public partial class Sample : System.Web.UI.Page
         //        "System.Data.SqlClient"
         //        );
 
-        DataTable dt = DataAccess.ExecuteSelect("select * from sample where col1=@col1;select * from sample where col1=@col1",new DbParameter[]{
+       
+        //SqlConnection connection = new SqlConnection("connectionString");
+        //DbCommand command = new SqlCommand("commandText", connection);
+        //DataAccess.ExecuteNonQueryNoParameter(command);
+    }
+
+
+    private void test() {
+
+        using (SqlConnection conn = new SqlConnection(Config.ConnectionStrings["StoreConnection"].ConnectionString)) {
+
+            string sql = "select * from sample where col1=@col1;select * from sample where col1=@col1";
+            DbCommand cmd = new SqlCommand();
+            cmd.Parameters.Add(new SqlParameter("@col1", "test1"));
+            cmd.Parameters.Add(new SqlParameter("@col1", "test2"));
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            conn.Open();
+
+            DbDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) {
+                Response.Write(reader["col1"].ToString() + "<BR>");
+                Response.Write(reader["col2"].ToString());
+            }
+        
+        }
+    }
+
+    private void Sample1() {
+
+        DataTable dt = DataAccess.ExecuteSelect("select * from sample where col1=@col1;select * from sample where col1=@col1", new DbParameter[]{
                 DataAccess.CreateParameterString("test2"),
                 DataAccess.CreateParameterString("test1")
         });
@@ -46,21 +81,6 @@ public partial class Sample : System.Web.UI.Page
                 Response.Write(dt.Columns[j].ToString() + ":" + dt.Rows[i][j].ToString() + "<BR>");
             }
         }
-        //SqlConnection connection = new SqlConnection("connectionString");
-        //DbCommand command = new SqlCommand("commandText", connection);
-        //DataAccess.ExecuteNonQueryNoParameter(command);
-    }
-
-    //private string GetConnectionString()
-    //{
-    //    return DataAccessHelper.CreateConnectionStringFromPrefix(
-    //        WebConfiguration.DBConnectionStringPrefix,
-    //        ConfigurationManager.ConnectionStrings["StoreConnection"].ConnectionString,
-    //        ConfigurationManager.ConnectionStrings["StoreConnection"].ProviderName,
-    //        HttpRuntime.AppDomainAppPath);
-    //}
-
-    private void Sample1() {
 
         //DataAccess.ExecuteNonQuery("INSERT INTO SearchLog( Keyword, SearchDate, IsFound ) VALUES ( @Keyword, @SearchDate, @IsFound )", new DbParameter[]
         //    {
